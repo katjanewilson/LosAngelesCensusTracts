@@ -32,7 +32,111 @@ A hard to swallow assumption in the linear model framework is that a particular 
 * [mgc](https://cran.r-project.org/web/packages/randomForest/randomForest.pdf)
 * [mgcViz](https://cran.r-project.org/web/packages/randomForest/randomForest.pdf)
 
-## How It Works
+
+
+
+## How it Works
+
+```
+
+#set seed at 4000
+# Bring in data and create initial training and test datasets
+set.seed(4000)
+df <- homeless
+index <- sample(1:nrow(df), (nrow(df))/2, replace = F) 
+Train <- na.omit(df[index,]) # Training data
+Test <- na.omit(df[-index,]) # Test data
+##coming to the right model:
+library(leaps)
+All1 <- regsubsets(StreetTotal ~ MedianIncome + PropMinority +
+                     PropVacant+
+                     PctResidential+
+                     PCTIndustrial +
+                     PctCommercial +
+                     Industrial, data = Train)
+# All1
+# summary(All1)
+
+Model2 <- lm(StreetTotal ~  
+               PropVacant+
+               Industrial +
+               (PropVacant:Industrial), data = Train)
+# summary(Model2)
+
+## Generalization error ##
+# Specify a model on the testing data 
+Model2 <- lm(StreetTotal ~  
+               PropVacant+
+               Industrial +
+               (PropVacant:Industrial), data = Test)
+# summary(Model2)
+#estimate the fitted values on the testing data, and the generalization error
+preds <- predict(Model2, newdata = Test) # New fitted values derived from the test data
+GE <- var(Test$StreetTotal - preds) # Estimate of generalization error (the variance of the residuals when 
+# GE
+# sqrt(GE)
+# Bootstrap a confidence interval for the generalization error 
+bootstrap_genError <-
+  function(x) {
+    bootstrapped_genErrors <- 0
+    for (i in 1:1000) {
+      index <- sample(1:nrow(x), nrow(x), replace = T)
+      sample_Test <- x[index,]
+      sample_Test_preds <- predict(Model2, newdata = sample_Test)
+      bootstrapped_genErrors[i] <- var(sample_Test$StreetTotal - sample_Test_preds)
+    }
+    return(bootstrapped_genErrors)
+  }
+
+bootstrap_results_ge <- bootstrap_genError(Test)
+
+# Check generalization error bootstrap results
+# mean(bootstrap_results_ge, na.rm = T)
+# summary(bootstrap_results_ge)
+# hist(bootstrap_results_ge, breaks = 20) 
+# qqnorm(bootstrap_results_ge)
+# sd(bootstrap_results_ge)
+# quantile(bootstrap_results_ge, probs = c(.025,.975))
+# plot(density(bootstrap_results_ge))
+# qqnorm(bootstrap_results_ge)
+#use robust sandwich standard errors in the sandwich package
+# install.packages("sandwich")
+library(sandwich)
+# vcovHC(Model2, type = "HC")
+# sandwich_se <- diag(vcovHC(Model2, type = "HC1"))
+# sqrt(sandwich_se)
+#then can get the confidence interval limits of these
+# coef(Model2) - 1.96*sandwich_se
+# coef(Model2) + 1.96*sandwich_se
+
+library(gam)
+library(mgcv)
+library(leaps)
+
+homeless2 <- homeless %>%
+  filter(MedianIncome > 60000 & PropVacant < .10)
+
+##MODEL 1
+out3 <- gam(StreetTotal ~
+              s(PCTIndustrial) +
+              s(PctCommercial) +
+              s(PropVacant) +
+              s(MedianIncome), data = homeless, family = gaussian)
+# summary(out3)
+par(mfrow=c(2,2))
+# plot(out3, residual = T, cex = 1, pch = 19, shade = T, shade.col = "light blue",
+#      col = "#FAD7A0")
+library(mgcViz)
+b<- getViz(out3)
+o <- plot( sm(b, 1) )
+# o + l_fitLine(colour = "#FAD7A0") + l_rug(mapping = aes(x=x, y=y), alpha = 0.9) +
+#   l_ciLine(mul = 5, colour = "light blue", linetype = 2) +
+#   l_points(shape = 19, size = 1, alpha = 0.7, color = "light blue") + theme_classic()
+
+
+```
+
+## Model Evaluation
 
 1. Our first gam model (Model 1.0) includes the variables Percent Industrial, Percent Commercial, and Proportion Vacant. This model, and others that were chosen through a backward elimination of insignificant predictors, share undesirable measures of GCV and explain a modest proportion of deviance at 35.9%. Since all of the variables have effective degrees of freedom greater than 1.0, this indicates that the partial response functions are nonlinear. For instance, the partial response function is relatively flat until over half of a tract is zoned for industrial purposes. The error bands are not too large during this increase period, so this increase should be considered. 
 The graphs show that certain trends in homeless counts are correlated. It makes subject matter sense that land use variables are significantly associated with higher counts of homeless people, the less that land is zoned for industrial or commercial properties, or the more that lots are left vacant, the higher counts of homeless. However, we also saw from the outlier analysis and skewed distributions that certain larger groups of homeless congregate in areas that do not necessarily fit these trends. If the goal is predicting, then understanding these outliers is key. The tails give us useful information. For instance, in the Percent Commercial variable, visualized in Figure 1.1, the partial response function is relatively flat until over half of a tract is zoned for commercial purposes. Of note, though, is how the error band widens as the percent zoned for commercial increases. This indicates that there are fewer observations, and perhaps the decrease should not be taken too thoughtfully. The Proportion Vacant variable also shows a small increase in the count of homeless as tracts report more vacancy, and the error bands widen for tracts with greater vacancy, of which we have less observations for. The lessons from this first model show that certain predictors seem to be associated with counts of homeless, but that uncertainty occurs in the outliers of these variables.
