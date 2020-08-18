@@ -5,7 +5,7 @@ A hard to swallow assumption in the linear model framework is that a particular 
 ## Table of Contents
 
 <p align="center">
-<img src="https://github.com/katjanewilson/CORD-Random-Forest/blob/master/images/covid.png"
+<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/census.png"
   alt="Size Limit comment in pull request about bundle size changes"
   width="486" height="189">
 </p>
@@ -152,18 +152,7 @@ One can infer that the homeless concentrate in locations. This makes subject mat
 ## Evaluation
 
 <p align="center">
-<img src="https://github.com/katjanewilson/CORD-Random-Forest/blob/master/images/confusion_table1.png"
+<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/gam.png"
   alt="Size Limit comment in pull request about bundle size changes"
   width="400" height="200">
 </p>
-
-
-<p align="center">
-<img src="https://github.com/katjanewilson/CORD-Random-Forest/blob/master/images/confusion_table2.png"
-  alt="Size Limit comment in pull request about bundle size changes"
-  width="400" height="200">
-</p>
-es in this category. In this case, the parameters can be re-sampled at different rates to achieve the desired cost ratio.
-The task was to improve upon decisions that were already being made by doctors and nurses who received COVID-19 cases in the ER. Despite the difficulty in obtaining the exact cost ratios that were requested by policy officials, the model provides forecasts that are superior to baseline practice. Additionally, the model accounts for the cost ratios that were requested by policy makers, which prior baseline practices did not take into account. Such a tool could be used in conjunction with the expertise of doctors and nurses in the field for allocating COVID-19 patients proper resources.
-
-
