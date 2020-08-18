@@ -152,7 +152,7 @@ One can infer that the homeless concentrate in locations. This makes subject mat
 ## Evaluation
 
 <p align="center">
-<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/gam.png"
+<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/gam_image.png"
   alt="Size Limit comment in pull request about bundle size changes"
   width="400" height="200">
 </p>
