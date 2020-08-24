@@ -2,14 +2,6 @@
 A hard to swallow assumption in the linear model framework is that a particular feature will change at the same rate across all values for a given variable. General Additive Models (GAM) give analysts the opportunity to identify nonlinear changes between covariates and the dependent variable. These nonparametric models can suffer from poor interpretability, however, and strong assumptions will have to be made regarding the data generation process. In a project using census data in the city of Los Angeles, GAM models identify outlier trends in homeless individuals, yet they also reveal limitations of the loess smoother at upper boundaries of data.
 *course project for Stat 974
 
-## Table of Contents
-
-<p align="center">
-<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/census.jpg"
-  alt="Size Limit comment in pull request about bundle size changes"
-  width="486" height="189">
-</p>
-
 
 [GitHub action]: https://github.com/andresz1/size-limit-action
 [cult-img]:      http://cultofmartians.com/assets/badges/badge.svg
