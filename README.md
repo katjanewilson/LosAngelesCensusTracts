@@ -5,7 +5,7 @@ A hard to swallow assumption in the linear model framework is that a particular 
 ## Table of Contents
 
 <p align="center">
-<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/census.png"
+<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/census.jpg"
   alt="Size Limit comment in pull request about bundle size changes"
   width="486" height="189">
 </p>
