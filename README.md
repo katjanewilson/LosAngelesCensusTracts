@@ -120,9 +120,3 @@ o <- plot( sm(b, 1) )
 
 
 ```
-
-<p align="center">
-<img src="https://github.com/katjanewilson/LosAngelesCensusTracts/blob/master/images/gam_image.png"
-  alt="Size Limit comment in pull request about bundle size changes"
-  width="500" height="300">
-</p>
